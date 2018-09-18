@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should return correct aggregate pipeline 1`] = `
+Object {
+  "conditions": Object {
+    "a": "some-filter-on-a",
+  },
+  "pipeline": Array [
+    Object {
+      "$match": Object {
+        "c": "this-is-from-another-collection",
+      },
+    },
+  ],
+}
+`;
+
+exports[`should return correct conditions for AND comparison 1`] = `
+Object {
+  "conditions": Object {
+    "$and": Array [
+      Object {
+        "status": "DISABLED",
+      },
+      Object {
+        "name": "Jon",
+      },
+    ],
+  },
+  "pipeline": Array [],
+}
+`;
+
+exports[`should return correct conditions for OR comparison 1`] = `
+Object {
+  "conditions": Object {
+    "$or": Array [
+      Object {
+        "status": "DISABLED",
+      },
+      Object {
+        "name": "Disabled User",
+      },
+    ],
+  },
+  "pipeline": Array [],
+}
+`;
+
+exports[`should return correct conditions for mapped key 1`] = `
+Object {
+  "conditions": Object {
+    "my.nested.tags": Object {
+      "$all": Array [
+        "a",
+        "b",
+      ],
+    },
+  },
+  "pipeline": Array [],
+}
+`;
+
+exports[`should return correct conditions for nested comparison 1`] = `
+Object {
+  "conditions": Object {
+    "$and": Array [
+      Object {
+        "$or": Array [
+          Object {
+            "status": "DISABLED",
+          },
+          Object {
+            "name": "Disabled User",
+          },
+        ],
+      },
+      Object {
+        "$or": Array [
+          Object {
+            "role": "ADMIN",
+          },
+          Object {
+            "name": "Admin",
+          },
+        ],
+      },
+    ],
+  },
+  "pipeline": Array [],
+}
+`;
+
+exports[`should return correct conditions when blacklisting some filters on mapping 1`] = `
+Object {
+  "conditions": Object {
+    "a": "b",
+  },
+  "pipeline": Array [],
+}
+`;
+
+exports[`should return correct conditions when using format function 1`] = `
+Object {
+  "conditions": Object {
+    "a": "something-else",
+  },
+  "pipeline": Array [],
+}
+`;
