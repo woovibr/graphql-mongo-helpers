@@ -1,6 +1,7 @@
 import {
   BuildedConditionSet,
   FilterFieldMapping,
+  FilterMapping,
   GraphQLFilter,
 } from './types';
 import { FILTER_CONDITION_TYPE } from './constants';
@@ -9,8 +10,6 @@ import {
   isCustomFilterMapping,
   isMatchFilterMapping,
 } from './utils';
-
-type MappingType<TValue> = { [key: string]: FilterFieldMapping<TValue> };
 
 const validOperators = ['gt', 'gte', 'lt', 'lte', 'in', 'nin', 'ne', 'all'];
 
@@ -24,7 +23,7 @@ const handleAndOr = (operator: '$and' | '$or') => <
 >(
   context: TContext,
   condition: GraphQLFilter[],
-  mapping: MappingType<TValue>,
+  mapping: FilterMapping<TValue>,
 ) => {
   if (!Array.isArray(condition)) {
     throw new Error(`Invalid filter supplied to ${operator}.`);
@@ -99,7 +98,7 @@ const handleFieldOperator = <TContext = any, TValue = any>(
 function buildConditionsObject<TContext = any, TValue = any>(
   context: TContext,
   conditions: GraphQLFilter,
-  mapping: MappingType<TValue>,
+  mapping: FilterMapping<TValue>,
 ): Object {
   return Object.keys(conditions).reduce((prev, currentKey): Object => {
     let condition = conditions[currentKey];
@@ -168,7 +167,7 @@ export default function buildMongoConditionsFromFilters<
 >(
   context: TContext,
   filters: GraphQLFilter | null = {},
-  mapping: MappingType<TValue> = {},
+  mapping: FilterMapping<TValue> = {},
 ): BuildedConditionSet {
   if (!filters) return { conditions: {}, pipeline: [] };
 
