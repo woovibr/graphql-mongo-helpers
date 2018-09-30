@@ -46,7 +46,7 @@ export interface GraphQLArgFilter {
 // this should be 1 | -1, but it's going to be harder to use from client if that was the case.
 export type SortDirection = number;
 
-export interface GraphqlOrderByArg<SortT extends string> {
-  sort: SortT;
+export interface GraphqlSortArg<SortFieldT extends string> {
+  field: SortFieldT;
   direction: SortDirection;
 }

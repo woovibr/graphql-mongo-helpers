@@ -2,10 +2,7 @@ export {
   default as buildMongoConditionsFromFilters,
 } from './buildMongoConditionsFromFilters';
 
-export {
-  default as buildSortFromOrderByArg,
-  SortObject,
-} from './buildSortFromOrderByArg';
+export { default as buildSortFromArg, SortObject } from './buildSortFromArg';
 
 export { DirectionEnum, DirectionEnumType } from './DirectionEnumType';
 
@@ -19,7 +16,7 @@ export {
   GraphQLFilter,
   GraphQLArgFilter,
   SortDirection,
-  GraphqlOrderByArg,
+  GraphqlSortArg,
 } from './types';
 
 export { FILTER_CONDITION_TYPE } from './constants';
