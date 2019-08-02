@@ -39,11 +39,13 @@ const mapping = {
   state: {
     uf: {
       type: FILTER_CONDITION_TYPE.MATCH_1_TO_1,
-      key: 'state.name'
+      key: 'state.uf'
     },
+  },
+  state: {
     name: {
       type: FILTER_CONDITION_TYPE.MATCH_1_TO_1,
-      key: 'state.uf'
+      key: 'state.name'
     }
   },
 }
