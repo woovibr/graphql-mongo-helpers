@@ -1,0 +1,13 @@
+{
+  "*.yml": [
+    "yarn prettier --write"
+  ],
+  "*.{ts,tsx,js}": [
+    "yarn prettier --write",
+    "yarn lint"
+  ],
+  "package.json": [
+    "yarn prettier --write",
+    "yarn sort-package-json"
+  ]
+}

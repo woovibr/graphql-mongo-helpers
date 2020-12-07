@@ -112,9 +112,7 @@ it('should return correct conditions for mapped key', async () => {
     },
   };
 
-  expect(
-    buildMongoConditionsFromFilters(context, filters, mapping),
-  ).toMatchSnapshot();
+  expect(buildMongoConditionsFromFilters(context, filters, mapping)).toMatchSnapshot();
 });
 
 it('should return correct conditions when blacklisting some filters on mapping', async () => {
@@ -129,9 +127,7 @@ it('should return correct conditions when blacklisting some filters on mapping',
     c: false,
   };
 
-  expect(
-    buildMongoConditionsFromFilters(context, filters, mapping),
-  ).toMatchSnapshot();
+  expect(buildMongoConditionsFromFilters(context, filters, mapping)).toMatchSnapshot();
 });
 
 it('should return correct aggregate pipeline', async () => {
@@ -155,9 +151,7 @@ it('should return correct aggregate pipeline', async () => {
     },
   };
 
-  expect(
-    buildMongoConditionsFromFilters(context, filters, mapping),
-  ).toMatchSnapshot();
+  expect(buildMongoConditionsFromFilters(context, filters, mapping)).toMatchSnapshot();
 });
 
 it('should throw error if using invalid value for filters', async () => {
@@ -166,18 +160,12 @@ it('should throw error if using invalid value for filters', async () => {
   const filtersA = {
     AND: 'a',
   };
-  // @ts-ignore expected
-  expect(() => buildMongoConditionsFromFilters(context, filtersA)).toThrow(
-    'Invalid filter supplied to $and.',
-  );
+  expect(() => buildMongoConditionsFromFilters(context, filtersA)).toThrow('Invalid filter supplied to $and.');
 
   const filtersB = {
     OR: 'a',
   };
-  // @ts-ignore expected
-  expect(() => buildMongoConditionsFromFilters(context, filtersB)).toThrow(
-    'Invalid filter supplied to $or.',
-  );
+  expect(() => buildMongoConditionsFromFilters(context, filtersB)).toThrow('Invalid filter supplied to $or.');
 
   const filtersC = {
     a: 'a',
@@ -189,9 +177,7 @@ it('should throw error if using invalid value for filters', async () => {
       pipeline: (value: string) => [{ $match: { a: value } }],
     },
   };
-  expect(() =>
-    buildMongoConditionsFromFilters(context, filtersC, mappingC),
-  ).toThrow(
+  expect(() => buildMongoConditionsFromFilters(context, filtersC, mappingC)).toThrow(
     'Wrong filter usage, because filter "a" is a pipeline filter, which should disable AND and OR',
   );
 });
@@ -210,9 +196,7 @@ it('should return correct conditions when using format function', async () => {
     },
   };
 
-  expect(
-    buildMongoConditionsFromFilters(context, filters, mapping),
-  ).toMatchSnapshot();
+  expect(buildMongoConditionsFromFilters(context, filters, mapping)).toMatchSnapshot();
 });
 
 it('should work with null filter', async () => {

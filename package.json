@@ -2,60 +2,73 @@
   "name": "@entria/graphql-mongo-helpers",
   "version": "0.0.1",
   "description": "Mongo helpers to be used when building a GraphQL API",
+  "repository": "https://github.com/entria/graphql-mongo-helpers",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Jonathan Cardoso Machado",
+      "url": "https://github.com/JCMais"
+    },
+    {
+      "name": "Jean Leonço",
+      "url": "https://github.com/jean-leonco"
+    }
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/entria/graphql-mongo-helpers",
-  "author": "Jonathan Cardoso Machado",
-  "license": "MIT",
-  "devDependencies": {
-    "@team-griffin/install-self-peers": "^1.1.1",
-    "@types/jest": "^23.3.2",
-    "jest": "^23.6.0",
-    "prettier": "^1.14.2",
-    "rimraf": "^2.6.2",
-    "ts-jest": "^23.1.4",
-    "tslint": "^5.11.0",
-    "tslint-config-airbnb": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
-    "typescript": "^3.0.3"
-  },
   "files": [
     "dist"
   ],
-  "jest": {
-    "globals": {
-      "ts-jest": {
-        "skipBabel": true
-      }
-    },
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
-  },
   "scripts": {
+    "build": "yarn clean && babel src -d dist --extensions .ts --ignore */__tests__*/",
     "clean": "rimraf dist",
-    "build": "yarn clean && tsc",
+    "lint": "eslint --fix --ext .js,.ts",
+    "lint:ci": "eslint --quiet --ext .js,.ts",
     "prepare": "install-self-peers -- --ignore-scripts",
     "prepublishOnly": "yarn lint && yarn test && yarn build",
-    "lint": "tslint --project tsconfig.json {src}/**/*.ts",
     "test": "jest"
   },
+  "dependencies": {
+    "@types/graphql": "14.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.8",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-async-generator-functions": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-export-default-from": "^7.10.4",
+    "@babel/plugin-proposal-export-namespace-from": "^7.10.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
+    "@babel/plugin-transform-async-to-generator": "^7.10.4",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-typescript": "^7.12.7",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@team-griffin/install-self-peers": "^1.1.1",
+    "@types/jest": "^26.0.16",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-import-resolver-typescript": "^2.3.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.2",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "sort-package-json": "^1.48.0",
+    "typescript": "^4.1.2"
+  },
   "peerDependencies": {
-    "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0"
+    "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.4.0"
   },
   "engines": {
     "node": ">= 8"
-  },
-  "dependencies": {
-    "@types/graphql": "0.13.4"
   }
 }

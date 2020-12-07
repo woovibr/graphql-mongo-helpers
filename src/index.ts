@@ -1,6 +1,4 @@
-export {
-  default as buildMongoConditionsFromFilters,
-} from './buildMongoConditionsFromFilters';
+export { default as buildMongoConditionsFromFilters } from './buildMongoConditionsFromFilters';
 
 export { default as buildSortFromArg, SortObject } from './buildSortFromArg';
 
