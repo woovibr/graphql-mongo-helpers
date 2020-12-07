@@ -30,8 +30,6 @@ export const isMatchFilterMapping = <ValueT = any>(
   filterMapping: FilterFieldMapping<ValueT> | undefined,
 ): filterMapping is FilterFieldMappingMatch<ValueT> => {
   return (
-    !!filterMapping &&
-    typeof filterMapping !== 'boolean' &&
-    filterMapping.type === FILTER_CONDITION_TYPE.MATCH_1_TO_1
+    !!filterMapping && typeof filterMapping !== 'boolean' && filterMapping.type === FILTER_CONDITION_TYPE.MATCH_1_TO_1
   );
 };
