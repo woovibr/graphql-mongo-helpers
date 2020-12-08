@@ -1,0 +1,32 @@
+name: Lint
+
+on: [pull_request]
+
+jobs:
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.15'
+
+      - name: Cache yarn.lock
+        id: yarn-cache
+        uses: actions/cache@master
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: |
+          yarn install --frozen-lockfile --production=false --non-interactive
+
+      - name: Lint
+        run: |
+          yarn lint:ci

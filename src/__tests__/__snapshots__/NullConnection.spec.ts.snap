@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NullConnection NullConnection 1`] = `
+Object {
+  "count": 0,
+  "edges": Array [],
+  "endCursorOffset": 0,
+  "pageInfo": Object {
+    "endCursor": "",
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+    "startCursor": "",
+  },
+  "startCursorOffset": 0,
+}
+`;

@@ -1,15 +1,6 @@
-import {
-  BuildedConditionSet,
-  FilterFieldMapping,
-  FilterMapping,
-  GraphQLFilter,
-} from './types';
+import { BuildedConditionSet, FilterFieldMapping, FilterMapping, GraphQLFilter } from './types';
 import { FILTER_CONDITION_TYPE } from './constants';
-import {
-  isPipelineFilterMapping,
-  isCustomFilterMapping,
-  isMatchFilterMapping,
-} from './utils';
+import { isPipelineFilterMapping, isCustomFilterMapping, isMatchFilterMapping } from './utils';
 
 const validOperators = ['gt', 'gte', 'lt', 'lte', 'in', 'nin', 'ne', 'all'];
 
@@ -17,10 +8,9 @@ const arrayOperators = ['in', 'nin', 'all'];
 
 const getFilterName = (filterName: string) => filterName.split('_')[0];
 
-const handleAndOr = (operator: '$and' | '$or') => <
-  TContext = any,
-  TValue = any
->(
+type Operators = 'gt' | 'gte' | 'lt' | 'lte' | 'in' | 'nin' | 'ne' | 'all' | '$and' | '$or';
+
+const handleAndOr = (operator: Operators) => <TContext = any, TValue = any>(
   context: TContext,
   condition: GraphQLFilter[],
   mapping: FilterMapping<TValue>,
@@ -30,9 +20,7 @@ const handleAndOr = (operator: '$and' | '$or') => <
   }
 
   return {
-    condition: condition.map(andCondition =>
-      buildConditionsObject<TContext, TValue>(context, andCondition, mapping),
-    ),
+    condition: condition.map((andCondition) => buildConditionsObject<TContext, TValue>(context, andCondition, mapping)),
     conditionName: operator,
   };
 };
@@ -41,7 +29,7 @@ const handleAnd = handleAndOr('$and');
 const handleOr = handleAndOr('$or');
 
 const handleFieldOperator = <TContext = any, TValue = any>(
-  context: TContext,
+  _context: TContext,
   condition: any,
   conditionName: string,
   fieldMapping: FilterFieldMapping<TValue>,
@@ -50,14 +38,12 @@ const handleFieldOperator = <TContext = any, TValue = any>(
   // { "myField_operator": "something" } becomes { "myField": { $operator: "something" } }
   // { "myField": "something" } remains the same
   const conditionNamePieces = conditionName.split('_');
-  const operator =
-    conditionNamePieces.length > 1 ? conditionNamePieces.pop() : '';
+  const operator = conditionNamePieces.length > 1 ? conditionNamePieces.pop() : '';
   // I don't think we support snake case for field names, should this be here?
   conditionName = conditionNamePieces.join('_');
 
   if (
-    (isMatchFilterMapping(fieldMapping) ||
-      isCustomFilterMapping(fieldMapping)) &&
+    (isMatchFilterMapping(fieldMapping) || isCustomFilterMapping(fieldMapping)) &&
     typeof fieldMapping.format === 'function'
   ) {
     condition = fieldMapping.format(condition);
@@ -65,9 +51,7 @@ const handleFieldOperator = <TContext = any, TValue = any>(
 
   if (operator) {
     if (validOperators.indexOf(operator) === -1) {
-      throw new Error(
-        `"${operator}" is not a valid operator on field "${conditionName}".`,
-      );
+      throw new Error(`"${operator}" is not a valid operator on field "${conditionName}".`);
     }
 
     if (arrayOperators.indexOf(operator) >= 0 && !Array.isArray(condition)) {
@@ -108,26 +92,14 @@ function buildConditionsObject<TContext = any, TValue = any>(
 
     if (fieldMapping === false) return prev;
 
-    if (
-      fieldMapping &&
-      !isCustomFilterMapping(fieldMapping) &&
-      !isMatchFilterMapping(fieldMapping)
-    ) {
+    if (fieldMapping && !isCustomFilterMapping(fieldMapping) && !isMatchFilterMapping(fieldMapping)) {
       return prev;
     }
 
     if (conditionName === 'AND') {
-      ({ condition, conditionName } = handleAnd<TContext, TValue>(
-        context,
-        condition,
-        mapping,
-      ));
+      ({ condition, conditionName } = handleAnd<TContext, TValue>(context, condition, mapping));
     } else if (conditionName === 'OR') {
-      ({ condition, conditionName } = handleOr<TContext, TValue>(
-        context,
-        condition,
-        mapping,
-      ));
+      ({ condition, conditionName } = handleOr<TContext, TValue>(context, condition, mapping));
     } else {
       if (isCustomFilterMapping(fieldMapping)) {
         if (fieldMapping.format && typeof fieldMapping.format === 'function') {
@@ -140,19 +112,10 @@ function buildConditionsObject<TContext = any, TValue = any>(
         }
       }
 
-      ({ condition, conditionName } = handleFieldOperator(
-        context,
-        condition,
-        conditionName,
-        fieldMapping,
-        prev,
-      ));
+      ({ condition, conditionName } = handleFieldOperator(context, condition, conditionName, fieldMapping, prev));
     }
 
-    conditionName =
-      isMatchFilterMapping<TValue>(fieldMapping) && fieldMapping.key
-        ? fieldMapping.key
-        : conditionName;
+    conditionName = isMatchFilterMapping<TValue>(fieldMapping) && fieldMapping.key ? fieldMapping.key : conditionName;
 
     return {
       ...prev,
@@ -161,13 +124,10 @@ function buildConditionsObject<TContext = any, TValue = any>(
   }, {});
 }
 
-export default function buildMongoConditionsFromFilters<
-  TContext = any,
-  TValue = any
->(
+export default function buildMongoConditionsFromFilters<TContext = any, TValue = any>(
   context: TContext,
   filters: GraphQLFilter | null = {},
-  mapping: FilterMapping<TValue> = {},
+  mapping: { [key: string]: FilterFieldMapping<TValue> } = {},
 ): BuildedConditionSet {
   if (!filters) return { conditions: {}, pipeline: [] };
 
@@ -176,9 +136,7 @@ export default function buildMongoConditionsFromFilters<
   // first check if there are any pipeline mapped fields
   //  and if AND or OR are also passed, if that is the case, we must throw an error
   //  because we cannot use OR/AND while also using pipeline.
-  const hasPipelineFilter = keys.find(key =>
-    isPipelineFilterMapping(mapping[key]),
-  );
+  const hasPipelineFilter = keys.find((key) => isPipelineFilterMapping(mapping[key]));
 
   if (hasPipelineFilter && (filters.AND || filters.OR)) {
     throw new Error(
@@ -191,17 +149,12 @@ export default function buildMongoConditionsFromFilters<
     (prev, key) => {
       const filterName = getFilterName(key);
 
-      const type =
-        (mapping &&
-          !!mapping[filterName] &&
-          // @ts-ignore type on false, but if mapping[item] is false, it would short circuit above.
-          mapping[filterName].type) ||
-        FILTER_CONDITION_TYPE.MATCH_1_TO_1;
+      // @ts-ignore
+      const type = (mapping && !!mapping[filterName] && mapping[filterName].type) || FILTER_CONDITION_TYPE.MATCH_1_TO_1;
 
       return {
         ...prev,
         [type]: {
-          // @ts-ignore too lazy to fix this no index thing.
           ...prev[type],
           [key]: filters[key],
         },
@@ -226,22 +179,19 @@ export default function buildMongoConditionsFromFilters<
   );
 
   // now build the pipeline, which is more straightforward
-  const pipeline = Object.keys(filtersKeysGrouped.AGGREGATE_PIPELINE).reduce(
-    (prev: Object[], key): Object[] => {
-      const mappedFilter = mapping[key];
-      // should not really happen!
-      if (!isPipelineFilterMapping(mappedFilter)) {
-        return prev;
-      }
+  const pipeline = Object.keys(filtersKeysGrouped.AGGREGATE_PIPELINE).reduce((prev: Object[], key): Object[] => {
+    const mappedFilter = mapping[key];
+    // should not really happen!
+    if (!isPipelineFilterMapping(mappedFilter)) {
+      return prev;
+    }
 
-      const fieldPipeline = Array.isArray(mappedFilter.pipeline)
-        ? mappedFilter.pipeline
-        : mappedFilter.pipeline(filters[key]);
+    const fieldPipeline = Array.isArray(mappedFilter.pipeline)
+      ? mappedFilter.pipeline
+      : mappedFilter.pipeline(filters[key]);
 
-      return [...prev, ...fieldPipeline];
-    },
-    [],
-  );
+    return [...prev, ...fieldPipeline];
+  }, []);
 
   return {
     conditions,
