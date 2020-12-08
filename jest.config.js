@@ -6,6 +6,7 @@ module.exports = {
   transform: {
     '^.+\\.(js|ts|tsx)?$': '<rootDir>/babel-transformer',
   },
+  testEnvironment: 'node',
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts|tsx)?$',
   moduleFileExtensions: ['ts', 'js', 'tsx', 'json'],
 };

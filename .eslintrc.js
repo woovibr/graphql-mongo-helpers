@@ -28,6 +28,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/no-empty-function': 'warn',
     '@typescript-eslint/ban-types': 'warn',
+    '@typescript-eslint/ban-ts-comment': 'warn',
     'import/named': 'off',
     'no-console': 'error',
     'import/first': 'warn',

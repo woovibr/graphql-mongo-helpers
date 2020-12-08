@@ -29,7 +29,7 @@ const handleAnd = handleAndOr('$and');
 const handleOr = handleAndOr('$or');
 
 const handleFieldOperator = <TContext = any, TValue = any>(
-  context: TContext,
+  _context: TContext,
   condition: any,
   conditionName: string,
   fieldMapping: FilterFieldMapping<TValue>,
@@ -127,7 +127,7 @@ function buildConditionsObject<TContext = any, TValue = any>(
 export default function buildMongoConditionsFromFilters<TContext = any, TValue = any>(
   context: TContext,
   filters: GraphQLFilter | null = {},
-  mapping: FilterMapping<TValue> = {},
+  mapping: { [key: string]: FilterFieldMapping<TValue> } = {},
 ): BuildedConditionSet {
   if (!filters) return { conditions: {}, pipeline: [] };
 
@@ -149,6 +149,7 @@ export default function buildMongoConditionsFromFilters<TContext = any, TValue =
     (prev, key) => {
       const filterName = getFilterName(key);
 
+      // @ts-ignore
       const type = (mapping && !!mapping[filterName] && mapping[filterName].type) || FILTER_CONDITION_TYPE.MATCH_1_TO_1;
 
       return {
