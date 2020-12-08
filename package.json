@@ -2,8 +2,17 @@
   "name": "@entria/graphql-mongo-helpers",
   "version": "0.0.1",
   "description": "Mongo helpers to be used when building a GraphQL API",
+  "keywords": [
+    "graphql",
+    "mongo"
+  ],
   "repository": "https://github.com/entria/graphql-mongo-helpers",
   "license": "MIT",
+  "author": {
+    "name": "Entria",
+    "email": "dev@entria.com.br",
+    "url": "https://github.com/entria"
+  },
   "contributors": [
     {
       "name": "Jonathan Cardoso Machado",
@@ -20,7 +29,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "yarn clean && babel src -d dist --extensions .ts --ignore */__tests__*/",
+    "build": "yarn clean && tsc -b",
     "clean": "rimraf dist",
     "lint": "eslint --fix --ext .js,.ts",
     "lint:ci": "eslint --quiet --ext .js,.ts",
@@ -29,6 +38,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@entria/graphql-mongoose-loader": "^4.3.2",
     "@types/graphql": "14.5.0"
   },
   "devDependencies": {
@@ -48,7 +58,9 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@team-griffin/install-self-peers": "^1.1.1",
+    "@types/graphql-relay": "^0.6.0",
     "@types/jest": "^26.0.16",
+    "@types/mongoose": "^5.10.2",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
     "babel-jest": "^26.6.3",
@@ -66,7 +78,10 @@
     "typescript": "^4.1.2"
   },
   "peerDependencies": {
-    "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.4.0"
+    "dataloader": "*",
+    "graphql": "*",
+    "graphql-relay": "*",
+    "mongoose": "*"
   },
   "engines": {
     "node": ">= 8"
