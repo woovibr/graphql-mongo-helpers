@@ -6,7 +6,10 @@
     "graphql",
     "mongo"
   ],
-  "repository": "https://github.com/entria/graphql-mongo-helpers",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/entria/graphql-mongo-helpers"
+  },
   "license": "MIT",
   "author": {
     "name": "Entria",
@@ -23,14 +26,13 @@
       "url": "https://github.com/jean-leonco"
     }
   ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "jsnext:main": "src/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "build": "yarn clean && tsc -b",
-    "clean": "rimraf dist",
+    "clean": "rimraf lib",
     "lint": "eslint --fix --ext .js,.ts",
     "lint:ci": "eslint --quiet --ext .js,.ts",
     "prepare": "install-self-peers -- --ignore-scripts",
@@ -83,7 +85,7 @@
     "graphql-relay": "*",
     "mongoose": "*"
   },
-  "engines": {
-    "node": ">= 8"
+  "publishConfig": {
+    "access": "public"
   }
 }
