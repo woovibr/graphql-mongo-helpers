@@ -82,6 +82,12 @@ export const createLoader = <
 
   const clearCache = ({ dataloaders }: Context, id: string) => dataloaders[loaderName].clear(id.toString());
 
+  const primeCache = ({ dataloaders }: Context, id: string, data: Value) =>
+    dataloaders[loaderName].prime(id.toString(), data);
+
+  const clearAndPrimeCache = (context: Context, id: string, data: Value) =>
+    clearCache(context, id) && primeCache(context, id, data);
+
   const loadAll = withConnectionCursor(model, load, (context: Context, args: FilteredConnectionArguments) => {
     const builtMongoConditions = buildMongoConditionsFromFilters(context, args.filters, filterMapping as any);
 
@@ -105,6 +111,8 @@ export const createLoader = <
     },
     getLoader,
     clearCache,
+    primeCache,
+    clearAndPrimeCache,
     load,
     loadAll,
   };
