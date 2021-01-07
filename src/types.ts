@@ -1,4 +1,8 @@
-export type BuildedConditionSet = {
+import { Types } from 'mongoose';
+
+export type DataLoaderKey = string | Types.ObjectId;
+
+export type BuiltConditionSet = {
   conditions: Object;
   pipeline: Object[];
 };
@@ -50,3 +54,5 @@ export interface GraphqlSortArg<SortFieldT extends string> {
   field: SortFieldT;
   direction: SortDirection;
 }
+
+export type LoaderFn<Context extends object> = (ctx: Context, id: DataLoaderKey) => any;
