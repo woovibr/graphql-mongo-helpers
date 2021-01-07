@@ -1,4 +1,4 @@
-import { BuildedConditionSet, FilterFieldMapping, FilterMapping, GraphQLFilter } from './types';
+import { BuiltConditionSet, FilterFieldMapping, FilterMapping, GraphQLFilter } from './types';
 import { FILTER_CONDITION_TYPE } from './constants';
 import { isPipelineFilterMapping, isCustomFilterMapping, isMatchFilterMapping } from './utils';
 
@@ -128,7 +128,7 @@ export default function buildMongoConditionsFromFilters<TContext = any, TValue =
   context: TContext,
   filters: GraphQLFilter | null = {},
   mapping: { [key: string]: FilterFieldMapping<TValue> } = {},
-): BuildedConditionSet {
+): BuiltConditionSet {
   if (!filters) return { conditions: {}, pipeline: [] };
 
   const keys = Object.keys(filters);

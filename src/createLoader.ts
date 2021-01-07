@@ -2,20 +2,21 @@
 import { mongooseLoader } from '@entria/graphql-mongoose-loader';
 import DataLoader from 'dataloader';
 import { ConnectionArguments } from 'graphql-relay';
-import { Model, Types, Document } from 'mongoose';
+import { Model, Document } from 'mongoose';
 
 import buildMongoConditionsFromFilters from './buildMongoConditionsFromFilters';
-import { GraphQLFilter } from './types';
-
+import { DataLoaderKey, GraphQLFilter } from './types';
+import { validateContextUser } from './validateContextUser';
+import { withConnectionAggregate } from './withConnectionAggregate';
 import { withConnectionCursor } from './withConnectionCursor';
 
 const defaultViewerCanSee = <Value extends Document>(_context: BaseContext<string, Value>, data: Value): Value => data;
 
-export type DataLoaderKey = string | Types.ObjectId;
-
 export interface BaseContext<LoaderName extends string, Value extends Document> {
   dataloaders: Record<LoaderName, DataLoader<string, Value>>;
 }
+
+type filtersConditionsOrSortFn<Context> = (context: Context, args: FilteredConnectionArguments) => object;
 
 export type CreateLoaderArgs<
   Context extends BaseContext<LoaderName, Value>,
@@ -26,6 +27,11 @@ export type CreateLoaderArgs<
   viewerCanSee?: (context: Context, data: Value) => Value | Promise<Value>;
   loaderName: LoaderName;
   filterMapping?: object;
+  isAggregate?: boolean;
+  shouldValidateContextUser?: boolean;
+  defaultFilters?: object | filtersConditionsOrSortFn<Context>;
+  defaultConditions?: object | filtersConditionsOrSortFn<Context>;
+  defaultSort?: object | filtersConditionsOrSortFn<Context>;
 };
 
 export interface FilteredConnectionArguments extends ConnectionArguments {
@@ -41,6 +47,11 @@ export const createLoader = <
   viewerCanSee = defaultViewerCanSee,
   loaderName,
   filterMapping = {},
+  isAggregate = false,
+  shouldValidateContextUser = false,
+  defaultFilters = {},
+  defaultConditions = {},
+  defaultSort = { createdAt: -1 },
 }: CreateLoaderArgs<Context, LoaderName, Value>) => {
   class Loader {
     [key: string]: any;
@@ -88,22 +99,50 @@ export const createLoader = <
   const clearAndPrimeCache = (context: Context, id: string, data: Value) =>
     clearCache(context, id) && primeCache(context, id, data);
 
-  const loadAll = withConnectionCursor(model, load, (context: Context, args: FilteredConnectionArguments) => {
-    const builtMongoConditions = buildMongoConditionsFromFilters(context, args.filters, filterMapping as any);
+  const buildFiltersConditionsAndSort = (context: Context, args: FilteredConnectionArguments) => {
+    const mongoDefaultFilters = typeof defaultFilters === 'object' ? defaultFilters : defaultFilters(context, args);
+
+    const builtMongoConditions = buildMongoConditionsFromFilters(
+      context,
+      { ...mongoDefaultFilters, ...(args.filters ? { ...args.filters } : {}) },
+      filterMapping as any,
+    );
+
+    const mongoDefaultConditions =
+      typeof defaultConditions === 'object' ? defaultConditions : defaultConditions(context, args);
+
+    const mongoDefaultSort = typeof defaultSort === 'object' ? defaultSort : defaultSort(context, args);
 
     const conditions = {
+      ...mongoDefaultConditions,
       ...builtMongoConditions.conditions,
     };
 
-    const sort = {
-      createdAt: -1,
-    };
-
     return {
+      builtMongoConditions,
+      mongoDefaultConditions,
       conditions,
-      sort,
+      mongoDefaultSort,
     };
-  });
+  };
+
+  const loadAll = isAggregate
+    ? withConnectionAggregate(model, load, (context: Context, args: FilteredConnectionArguments) => {
+        const { mongoDefaultConditions, builtMongoConditions } = buildFiltersConditionsAndSort(context, args);
+
+        return {
+          defaultConditions: mongoDefaultConditions,
+          builtMongoConditions,
+        };
+      })
+    : withConnectionCursor(model, load, (context: Context, args: FilteredConnectionArguments) => {
+        const { conditions, mongoDefaultSort } = buildFiltersConditionsAndSort(context, args);
+
+        return {
+          conditions,
+          sort: mongoDefaultSort,
+        };
+      });
 
   return {
     Wrapper: Wrapper as {
@@ -114,6 +153,6 @@ export const createLoader = <
     primeCache,
     clearAndPrimeCache,
     load,
-    loadAll,
+    loadAll: shouldValidateContextUser ? validateContextUser(loadAll) : loadAll,
   };
 };
