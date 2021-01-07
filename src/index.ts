@@ -2,7 +2,7 @@ export { default as buildMongoConditionsFromFilters } from './buildMongoConditio
 export { default as buildSortFromArg, SortObject } from './buildSortFromArg';
 export { DirectionEnum, DirectionEnumType } from './DirectionEnumType';
 export {
-  BuildedConditionSet,
+  BuiltConditionSet,
   FilterFieldMappingMatch,
   FilterFieldMappingCustom,
   FilterFieldMappingPipeline,
@@ -12,11 +12,13 @@ export {
   GraphQLArgFilter,
   SortDirection,
   GraphqlSortArg,
+  DataLoaderKey,
 } from './types';
 export { FILTER_CONDITION_TYPE } from './constants';
 export { getObjectId } from './getObjectId';
-export { createLoader, DataLoaderKey } from './createLoader';
+export { createLoader } from './createLoader';
 export { connectionDefinitions, connectionArgs } from './connectionDefinitions';
 export { objectIdResolver, timestampResolver } from './documentResolvers';
 export { errorField, successField } from './statusFields';
 export { withFilter, ArgsWithFilter } from './withFilter';
+export { NullConnection, NullConnectionType } from './NullConnection';
