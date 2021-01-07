@@ -1,6 +1,6 @@
 {
   "name": "@entria/graphql-mongo-helpers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Mongo helpers to be used when building a GraphQL API",
   "keywords": [
     "graphql",
