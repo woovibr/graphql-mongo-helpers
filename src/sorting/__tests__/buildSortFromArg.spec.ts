@@ -8,9 +8,7 @@ it('should return correct sort', async () => {
     },
   ];
 
-  expect(buildSortFromArg(sortArg)).toMatchInlineSnapshot(`
-Object {
-  "user": -1,
-}
-`);
+  expect(buildSortFromArg(sortArg)).toEqual({
+    user: -1,
+  });
 });
