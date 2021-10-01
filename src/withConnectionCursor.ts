@@ -3,21 +3,23 @@ import { Model } from 'mongoose';
 
 import { LoaderFn } from './types';
 
-export const withConnectionCursor = <Context extends object>(
-  model: Model<any>,
-  loader: LoaderFn<Context>,
-  condFn: (...p: any[]) => { conditions?: object; sort?: object },
-) => (...params: any[]) => {
-  const { conditions = {}, sort = {} } = condFn(...params);
+export const withConnectionCursor =
+  <Context>(
+    model: Model<any>,
+    loader: LoaderFn<Context>,
+    condFn: (...p: any[]) => { conditions?: object; sort?: object },
+  ) =>
+  (...params: any[]) => {
+    const { conditions = {}, sort = {} } = condFn(...params);
 
-  const [context, args] = params;
+    const [context, args] = params;
 
-  const cursor = model.find(conditions).sort(sort);
+    const cursor = model.find(conditions).sort(sort);
 
-  return connectionFromMongoCursor({
-    cursor,
-    context,
-    args,
-    loader: loader as any,
-  });
-};
+    return connectionFromMongoCursor({
+      cursor,
+      context,
+      args,
+      loader: loader as any,
+    });
+  };

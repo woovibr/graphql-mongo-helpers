@@ -10,8 +10,6 @@ import { validateContextUser } from './validateContextUser';
 import { withConnectionAggregate } from './withConnectionAggregate';
 import { withConnectionCursor } from './withConnectionCursor';
 
-const defaultViewerCanSee = <Value extends Document>(_context: BaseContext<string, Value>, data: Value): Value => data;
-
 export interface BaseContext<LoaderName extends string, Value extends Document> {
   dataloaders: Record<LoaderName, DataLoader<string, Value>>;
 }
@@ -30,10 +28,11 @@ export const defaultGetLoader = <
   return (ctx: Context) => ctx.dataloaders[name];
 };
 
-export type CreateLoaderArgs<Context, LoaderName extends string, Value extends Document> = {
+export type ViewerCanSeeFn<Context, Value extends Document> = (context: Context, data: Value) => Value | Promise<Value>;
+
+export type CreateLoaderArgs<Context, Value extends Document> = {
   model: Model<Value>;
-  viewerCanSee?: (context: Context, data: Value) => Value | Promise<Value>;
-  loaderName: LoaderName;
+  viewerCanSee?: ViewerCanSeeFn<Context, Value>;
   filterMapping?: object;
   isAggregate?: boolean;
   getLoaderByCtx: GetLoaderFunction<Context, Value>;
@@ -47,14 +46,9 @@ export interface FilteredConnectionArguments extends ConnectionArguments {
   filters: GraphQLFilter | null;
 }
 
-export const createLoader = <
-  Context extends BaseContext<LoaderName, Value>,
-  LoaderName extends string,
-  Value extends Document,
->({
+export const createLoader = <Context, Value extends Document>({
   model,
-  viewerCanSee = defaultViewerCanSee,
-  loaderName,
+  viewerCanSee = (_ctx, data) => data,
   filterMapping = {},
   isAggregate = false,
   shouldValidateContextUser = false,
@@ -62,7 +56,7 @@ export const createLoader = <
   defaultConditions = {},
   defaultSort = { createdAt: -1 },
   getLoaderByCtx,
-}: CreateLoaderArgs<Context, LoaderName, Value>) => {
+}: CreateLoaderArgs<Context, Value>) => {
   class Loader {
     [key: string]: any;
     constructor(data: Value) {
