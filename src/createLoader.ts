@@ -18,16 +18,25 @@ export interface BaseContext<LoaderName extends string, Value extends Document> 
 
 type filtersConditionsOrSortFn<Context> = (context: Context, args: FilteredConnectionArguments) => object;
 
-export type CreateLoaderArgs<
-  Context extends BaseContext<LoaderName, Value>,
+export type GetLoaderFunction<Context, Value extends Document> = (ctx: Context) => DataLoader<string, Value>;
+
+export const defaultGetLoader = <
   LoaderName extends string,
-  Value extends Document
-> = {
+  Value extends Document,
+  Context extends BaseContext<LoaderName, Value>,
+>(
+  name: LoaderName,
+) => {
+  return (ctx: Context) => ctx.dataloaders[name];
+};
+
+export type CreateLoaderArgs<Context, LoaderName extends string, Value extends Document> = {
   model: Model<Value>;
   viewerCanSee?: (context: Context, data: Value) => Value | Promise<Value>;
   loaderName: LoaderName;
   filterMapping?: object;
   isAggregate?: boolean;
+  getLoaderByCtx: GetLoaderFunction<Context, Value>;
   shouldValidateContextUser?: boolean;
   defaultFilters?: object | filtersConditionsOrSortFn<Context>;
   defaultConditions?: object | filtersConditionsOrSortFn<Context>;
@@ -41,7 +50,7 @@ export interface FilteredConnectionArguments extends ConnectionArguments {
 export const createLoader = <
   Context extends BaseContext<LoaderName, Value>,
   LoaderName extends string,
-  Value extends Document
+  Value extends Document,
 >({
   model,
   viewerCanSee = defaultViewerCanSee,
@@ -52,6 +61,7 @@ export const createLoader = <
   defaultFilters = {},
   defaultConditions = {},
   defaultSort = { createdAt: -1 },
+  getLoaderByCtx,
 }: CreateLoaderArgs<Context, LoaderName, Value>) => {
   class Loader {
     [key: string]: any;
@@ -77,7 +87,7 @@ export const createLoader = <
     }
 
     try {
-      const data = await context.dataloaders[loaderName].load(id.toString());
+      const data = await getLoaderByCtx(context).load(id.toString());
 
       if (!data) {
         return null;
@@ -91,10 +101,9 @@ export const createLoader = <
     }
   };
 
-  const clearCache = ({ dataloaders }: Context, id: string) => dataloaders[loaderName].clear(id.toString());
+  const clearCache = (ctx: Context, id: string) => getLoaderByCtx(ctx).clear(id.toString());
 
-  const primeCache = ({ dataloaders }: Context, id: string, data: Value) =>
-    dataloaders[loaderName].prime(id.toString(), data);
+  const primeCache = (ctx: Context, id: string, data: Value) => getLoaderByCtx(ctx).prime(id.toString(), data);
 
   const clearAndPrimeCache = (context: Context, id: string, data: Value) =>
     clearCache(context, id) && primeCache(context, id, data);
