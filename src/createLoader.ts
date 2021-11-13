@@ -76,19 +76,15 @@ export const createLoader = <
       return null;
     }
 
-    try {
-      const data = await context.dataloaders[loaderName].load(id.toString());
+    const data = await context.dataloaders[loaderName].load(id.toString());
 
-      if (!data) {
-        return null;
-      }
-
-      const filteredData = await viewerCanSee(context, data);
-
-      return filteredData ? (new Wrapper(filteredData) as Value) : null;
-    } catch (err) {
+    if (!data) {
       return null;
     }
+
+    const filteredData = await viewerCanSee(context, data);
+
+    return filteredData ? new Wrapper(filteredData) : null;
   };
 
   const clearCache = ({ dataloaders }: Context, id: string) => dataloaders[loaderName].clear(id.toString());
