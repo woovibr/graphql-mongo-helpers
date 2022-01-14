@@ -35,13 +35,13 @@ describe('connectionDefinitions', () => {
     const connectionFields = NodeConnection.connectionType.getFields();
     expect(connectionFields.count.type).toMatchObject(GraphQLInt);
     expect(connectionFields.totalCount.type).toMatchObject(GraphQLInt);
-    expect(connectionFields.startCursorOffset.type).toMatchObject(GraphQLNonNull(GraphQLInt));
-    expect(connectionFields.endCursorOffset.type).toMatchObject(GraphQLNonNull(GraphQLInt));
-    expect(connectionFields.pageInfo.type).toMatchObject(GraphQLNonNull(PageInfoType));
+    expect(connectionFields.startCursorOffset.type).toMatchObject(new GraphQLNonNull(GraphQLInt));
+    expect(connectionFields.endCursorOffset.type).toMatchObject(new GraphQLNonNull(GraphQLInt));
+    expect(connectionFields.pageInfo.type).toMatchObject(new GraphQLNonNull(PageInfoType));
 
     const edgeFields = NodeConnection.edgeType.getFields();
     expect(edgeFields.node.type).toMatchObject(NodeType);
-    expect(edgeFields.cursor.type).toMatchObject(GraphQLNonNull(GraphQLString));
+    expect(edgeFields.cursor.type).toMatchObject(new GraphQLNonNull(GraphQLString));
   });
 
   it('should create a connection and extend ConnectionInterface', () => {
