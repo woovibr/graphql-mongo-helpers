@@ -7,7 +7,7 @@ interface ModelObj {
 
 export const objectIdResolver = {
   _id: {
-    type: GraphQLNonNull(GraphQLString),
+    type: new GraphQLNonNull(GraphQLString),
     description: 'mongoose _id',
     resolve: ({ _id }: ModelObj) => _id.toString(),
   },
