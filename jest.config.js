@@ -4,7 +4,7 @@ module.exports = {
   resetModules: false,
   reporters: ['default'],
   transform: {
-    '^.+\\.(js|ts|tsx)?$': '<rootDir>/babel-transformer',
+    '^.+\\.(js|ts|tsx)?$': 'babel-jest',
   },
   testEnvironment: 'node',
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts|tsx)?$',
