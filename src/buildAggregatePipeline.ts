@@ -1,3 +1,5 @@
+import { PipelineStage } from 'mongoose';
+
 import { BuiltConditionSet } from './types';
 
 interface IBuildAggregatePipeline {
@@ -8,7 +10,7 @@ interface IBuildAggregatePipeline {
 export function buildAggregatePipeline({
   defaultConditions,
   builtMongoConditions,
-}: IBuildAggregatePipeline): Record<string, any>[] {
+}: IBuildAggregatePipeline): PipelineStage[] {
   const conditions = {
     ...defaultConditions,
     ...builtMongoConditions.conditions,
