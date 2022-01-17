@@ -1150,9 +1150,9 @@
     "@cspotcode/source-map-consumer" "0.8.0"
 
 "@entria/graphql-mongoose-loader@^4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@entria/graphql-mongoose-loader/-/graphql-mongoose-loader-4.3.2.tgz#1ccaf9cf8d6c80a974ff3154c45de5b12169b11c"
-  integrity sha512-F10Cs8iMI7XYP1C2fliaY7GiHY1wkrmufEeJHadiwvYg44fW53RnuprUu2blKTP85ZQrk0vb6Tsg6tM5OCd3fg==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@entria/graphql-mongoose-loader/-/graphql-mongoose-loader-4.4.0.tgz#eb420b82f9889a7d916fc74d4a8437dfba7daabd"
+  integrity sha512-RcNdqPQf/GlnQch1IyUOTMTw13k+zE7zK9JeMd5cUGnShI/ih4k1JZEEtJDwyRwW1bOqAhlmP8dyY1CY8iPX8Q==
 
 "@eslint/eslintrc@^1.0.5":
   version "1.0.5"
