@@ -10,9 +10,9 @@ const errorField = {
 
 const successField = {
   success: {
-    type: GraphQLBoolean,
+    type: GraphQLString,
     description: 'Default success field resolver.',
-    resolve: ({ success }) => success || false,
+    resolve: ({ success }) => success,
   },
 };
 
