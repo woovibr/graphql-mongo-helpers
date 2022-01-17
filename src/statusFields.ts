@@ -1,4 +1,4 @@
-import { GraphQLBoolean, GraphQLString } from 'graphql';
+import { GraphQLString } from 'graphql';
 
 const errorField = {
   error: {
