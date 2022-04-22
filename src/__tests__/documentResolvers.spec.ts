@@ -19,7 +19,7 @@ describe('documentResolvers', () => {
 
     expect(Object.keys(postFields)).toHaveLength(2);
     expect(postFields._id.name).toBe('_id');
-    expect(postFields._id.type).toMatchObject(GraphQLNonNull(GraphQLString));
+    expect(postFields._id.type).toMatchObject(new GraphQLNonNull(GraphQLString));
     expect(postFields._id.resolve).toBeTruthy();
   });
 

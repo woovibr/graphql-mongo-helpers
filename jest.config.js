@@ -10,7 +10,7 @@ module.exports = {
   setupFiles: ['dotenv/config'],
   reporters: ['default'],
   transform: {
-    '^.+\\.(js|ts|tsx)?$': '<rootDir>/babel-transformer',
+    '^.+\\.(js|ts|tsx)?$': 'babel-jest',
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts|tsx)?$',
   moduleFileExtensions: ['ts', 'js', 'tsx', 'json'],

@@ -1,4 +1,4 @@
-import { GraphQLBoolean, GraphQLString } from 'graphql';
+import { GraphQLString } from 'graphql';
 
 const errorField = {
   error: {
@@ -10,9 +10,9 @@ const errorField = {
 
 const successField = {
   success: {
-    type: GraphQLBoolean,
+    type: GraphQLString,
     description: 'Default success field resolver.',
-    resolve: ({ success }) => success || false,
+    resolve: ({ success }) => success,
   },
 };
 

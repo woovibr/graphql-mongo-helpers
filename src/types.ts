@@ -3,8 +3,8 @@ import { Types } from 'mongoose';
 export type DataLoaderKey = string | Types.ObjectId;
 
 export type BuiltConditionSet = {
-  conditions: Object;
-  pipeline: Object[];
+  conditions: any;
+  pipeline: any[];
 };
 
 export type FilterMapping<TValue = any> = {
