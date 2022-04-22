@@ -11,3 +11,4 @@ coverage
 .globalConfig.json
 package-lock.json
 lib
+globalConfig.json
