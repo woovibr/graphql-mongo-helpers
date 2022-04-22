@@ -21,7 +21,7 @@ type filtersConditionsOrSortFn<Context> = (context: Context, args: FilteredConne
 export type CreateLoaderArgs<
   Context extends BaseContext<LoaderName, Value>,
   LoaderName extends string,
-  Value extends Document
+  Value extends Document,
 > = {
   model: Model<Value>;
   viewerCanSee?: (context: Context, data: Value) => Value | Promise<Value>;
@@ -41,7 +41,7 @@ export interface FilteredConnectionArguments extends ConnectionArguments {
 export const createLoader = <
   Context extends BaseContext<LoaderName, Value>,
   LoaderName extends string,
-  Value extends Document
+  Value extends Document,
 >({
   model,
   viewerCanSee = defaultViewerCanSee,
@@ -76,15 +76,19 @@ export const createLoader = <
       return null;
     }
 
-    const data = await context.dataloaders[loaderName].load(id.toString());
+    try {
+      const data = await context.dataloaders[loaderName].load(id.toString());
 
-    if (!data) {
+      if (!data) {
+        return null;
+      }
+
+      const filteredData = await viewerCanSee(context, data);
+
+      return filteredData ? (new Wrapper(filteredData) as Value) : null;
+    } catch (err) {
       return null;
     }
-
-    const filteredData = await viewerCanSee(context, data);
-
-    return filteredData ? new Wrapper(filteredData) : null;
   };
 
   const clearCache = ({ dataloaders }: Context, id: string) => dataloaders[loaderName].clear(id.toString());
