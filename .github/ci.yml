@@ -30,3 +30,7 @@ jobs:
       - name: Lint
         run: |
           yarn lint:ci
+
+      - name: Test
+        run: |
+          yarn test --ci
