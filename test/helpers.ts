@@ -5,76 +5,54 @@ import mongoose from 'mongoose';
 import UserModel from './fixtures/UserModel';
 import GroupModel from './fixtures/GroupModel';
 
-export interface TestGlobal extends NodeJS.Global {
-  __COUNTERS__: object;
-  __MONGO_URI__: string;
-  __MONGO_DB_NAME__: string;
-}
-
-declare const global: TestGlobal;
-
-export const getCounter = (key: string) => {
-  if (key in global.__COUNTERS__) {
-    // @ts-ignore
-    const currentValue = global.__COUNTERS__[key];
-
-    // @ts-ignore
-    global.__COUNTERS__[key]++;
-
-    return currentValue;
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface Global {
+      __MONGO_URI__: string;
+      __MONGO_DB_NAME__: string;
+    }
   }
+}
 
-  // @ts-ignore
-  global.__COUNTERS__[key] = 0;
-  return 0;
+export const connectDatabase = async (): Promise<void> => {
+  // jest.setTimeout(30000);
+  await mongoose.connect(
+    global.__MONGO_URI__,
+    {
+      useNewUrlParser: true,
+      // dbName: global.__MONGO_DB_NAME__,
+      // useUnifiedTopology: true,
+      useCreateIndex: true,
+    },
+    (err) => {
+      if (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        process.exit(1);
+      }
+    },
+  );
 };
 
-export const restartCounters = () => {
-  global.__COUNTERS__ = {};
+export const clearDatabase = async (): Promise<void> => {
+  await mongoose.connection?.db?.dropDatabase();
 };
 
-export async function connectMongoose() {
-  jest.setTimeout(20000);
-  return mongoose.connect(global.__MONGO_URI__, {
-    useNewUrlParser: true,
-    dbName: global.__MONGO_DB_NAME__,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  });
-}
-
-export async function connectMongooseAndPopulate() {
-  await connectMongoose();
-}
-
-export async function clearDatabase() {
-  await mongoose.connection.db.dropDatabase();
-}
-
-export async function disconnectMongoose() {
-  //await mongoose.connection.close();
-  return mongoose.disconnect();
-}
-
-export async function clearDbAndRestartCounters() {
-  await clearDatabase();
-  restartCounters();
-}
+export const closeDatabase = async (): Promise<void> => {
+  await mongoose.connection?.close();
+};
 
 export const createUser = async (args: any = {}) => {
-  const n = getCounter('user');
-
-  return new UserModel({
-    name: `User ${n}`,
+  return UserModel.create({
+    name: `User`,
     ...args,
-  }).save();
+  });
 };
 
 export const createGroup = async (args: any = {}) => {
-  const n = getCounter('group');
-
-  return new GroupModel({
-    name: `Group ${n}`,
+  return GroupModel.create({
+    name: `Group`,
     ...args,
-  }).save();
+  });
 };

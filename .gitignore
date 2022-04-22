@@ -8,5 +8,6 @@ coverage
 *.log*
 .DS_Store
 .nyc_output
+.globalConfig.json
 package-lock.json
 lib

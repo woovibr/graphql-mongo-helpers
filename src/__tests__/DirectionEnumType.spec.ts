@@ -7,22 +7,15 @@ import {
   GraphQLSchema,
 } from 'graphql';
 
-import {
-  connectMongooseAndPopulate,
-  clearDbAndRestartCounters,
-  disconnectMongoose,
-  createUser,
-} from '../../test/helpers';
+import { closeDatabase, clearDatabase, connectDatabase, createUser } from '../../test/helpers';
 import { UserSortFieldEnumType, UserType } from '../../test/fixtures/Schema';
 import UserModel from '../../test/fixtures/UserModel';
 
 import { buildSortFromArg, DirectionEnumType } from '..';
 
-beforeAll(connectMongooseAndPopulate);
-
-beforeEach(clearDbAndRestartCounters);
-
-afterAll(disconnectMongoose);
+beforeAll(async () => await connectDatabase());
+beforeEach(async () => await clearDatabase());
+afterAll(async () => await closeDatabase());
 
 describe('should return the order of users by createdAt ', () => {
   const UserSortInputType = new GraphQLInputObjectType({
@@ -80,6 +73,6 @@ describe('should return the order of users by createdAt ', () => {
     const result = await graphql({ schema, source, variableValues: { direction: 'DESC' } });
 
     expect(result.data.users.length).toBe(2);
-    expect(result.data.users[0].createdAt).toBeGreaterThan(result.data.users[1].createdAt);
+    expect(result.data.users[1].createdAt).toBeGreaterThan(result.data.users[2].createdAt);
   });
 });
