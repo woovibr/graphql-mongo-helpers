@@ -4,10 +4,10 @@ export const DirectionEnumType = new GraphQLEnumType({
   name: 'DirectionEnum',
   values: {
     ASC: {
-      value: 1,
+      value: -1,
     },
     DESC: {
-      value: -1,
+      value: 1,
     },
   },
 });

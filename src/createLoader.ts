@@ -21,7 +21,7 @@ type filtersConditionsOrSortFn<Context> = (context: Context, args: FilteredConne
 export type CreateLoaderArgs<
   Context extends BaseContext<LoaderName, Value>,
   LoaderName extends string,
-  Value extends Document
+  Value extends Document,
 > = {
   model: Model<Value>;
   viewerCanSee?: (context: Context, data: Value) => Value | Promise<Value>;
@@ -41,7 +41,7 @@ export interface FilteredConnectionArguments extends ConnectionArguments {
 export const createLoader = <
   Context extends BaseContext<LoaderName, Value>,
   LoaderName extends string,
-  Value extends Document
+  Value extends Document,
 >({
   model,
   viewerCanSee = defaultViewerCanSee,
