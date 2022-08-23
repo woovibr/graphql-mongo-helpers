@@ -46,7 +46,7 @@
     "dataloader": "*",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-import-resolver-typescript": "^2.3.0",
+    "eslint-import-resolver-typescript": "^3.5.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^4.0.0",
     "graphql": ">=16.0.0",
