@@ -55,7 +55,7 @@
     "lint-staged": "^12.1.7",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
-    "sort-package-json": "^1.48.1",
+    "sort-package-json": "^2.4.0",
     "typescript": "^4.1.3"
   },
   "jsnext:main": "src/index.js",
