@@ -71,7 +71,7 @@ export const createLoader = <
 
   const getLoader = () => new DataLoader<string, Value>((ids) => mongooseLoader(model, ids));
 
-  const load = async (context: Context, id: DataLoaderKey) => {
+  const load = async (context: Context, id: DataLoaderKey, bypassViewerCanSee = false) => {
     if (!id) {
       return null;
     }
@@ -81,6 +81,10 @@ export const createLoader = <
 
       if (!data) {
         return null;
+      }
+
+      if (bypassViewerCanSee) {
+        return new Wrapper(data);
       }
 
       const filteredData = await viewerCanSee(context, data);
