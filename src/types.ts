@@ -1,6 +1,6 @@
-import { Types } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
-export type DataLoaderKey = string | Types.ObjectId;
+export type DataLoaderKey = string | Types.ObjectId | Schema.Types.ObjectId;
 
 export type BuiltConditionSet = {
   conditions: any;
