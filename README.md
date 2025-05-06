@@ -15,18 +15,60 @@ It's a package with some (currently two to be exact) tools to use when building 
 
 ```
 yarn add @entria/graphql-mongo-helpers
+
+or
+
+npm i @entria/graphql-mongo-helpers
 ```
 
 ### Usage
 
-The most updated source of documentation are the test files, check the files in `src/__tests__/`.
+#### MATCH_1_TO_1
+The example below includes use with or without regex, e sub field.
+```
+const stringToRegexQuery = val => ({ $regex: new RegExp(val) })
 
+const mapping = {
+  code: {
+    type: FILTER_CONDITION_TYPE.MATCH_1_TO_1,
+  },
+  city: {
+    type: FILTER_CONDITION_TYPE.MATCH_1_TO_1,
+    format: stringToRegexQuery
+  },
+  stateuf: {
+    type: FILTER_CONDITION_TYPE.MATCH_1_TO_1,
+    key: 'state.uf'
+  },
+  statename: {
+    type: FILTER_CONDITION_TYPE.MATCH_1_TO_1,
+    key: 'state.name'
+  },
+}
+```
 
-The following posts are going to have more info on both helpers currently exported by this library:
+#### CUSTOM_CONDITION
+The custom condition can be used to filter posts that include a list of tag as in the example below:
 
-[Introduction to GraphQL Mongo Helpers
-][post-a]
+```
+const mapping = {
+  tags: {
+      type: FILTER_CONDITION_TYPE.CUSTOM_CONDITION,
+      format: tags => {
+        if (!tags) return []
+        return { tags: { $in: tags } };
+      },
+    },
+ };
+```
 
+#### AGGREGATE_PIPELINE
+Soon documentation will be included, As a complement to the documentation see all the tests, in `src/__tests__/`.
+
+### Posts:
+The following posts are going to have more info about use of this library:
+
+[Introduction to GraphQL Mongo Helpers][post-a]
 [Client-Supplied Custom Sorting Using GraphQL][post-b]
 
 [graphql]: https://github.com/graphql/graphql-js
