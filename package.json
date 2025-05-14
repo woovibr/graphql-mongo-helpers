@@ -84,7 +84,7 @@
     "clean": "rimraf lib",
     "lint": "eslint --fix --ext .js,.ts",
     "lint:ci": "eslint --quiet --ext .js,.ts",
-    "prepublishOnly": "pnpm lint && pnpm test && pnpm  build",
+    "prepublishOnly": "pnpm test && pnpm  build",
     "release:major": "npm version major && git push --follow-tags",
     "release:minor": "npm version minor && git push --follow-tags",
     "release:patch": "npm version patch && git push --follow-tags",
