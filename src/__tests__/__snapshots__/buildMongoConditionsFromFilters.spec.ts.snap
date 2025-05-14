@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should return correct aggregate pipeline 1`] = `
-Object {
-  "conditions": Object {
+{
+  "conditions": {
     "a": "some-filter-on-a",
   },
-  "pipeline": Array [
-    Object {
-      "$match": Object {
+  "pipeline": [
+    {
+      "$match": {
         "c": "this-is-from-another-collection",
       },
     },
@@ -16,95 +16,95 @@ Object {
 `;
 
 exports[`should return correct conditions for AND comparison 1`] = `
-Object {
-  "conditions": Object {
-    "$and": Array [
-      Object {
+{
+  "conditions": {
+    "$and": [
+      {
         "status": "DISABLED",
       },
-      Object {
+      {
         "name": "Jon",
       },
     ],
   },
-  "pipeline": Array [],
+  "pipeline": [],
 }
 `;
 
 exports[`should return correct conditions for OR comparison 1`] = `
-Object {
-  "conditions": Object {
-    "$or": Array [
-      Object {
+{
+  "conditions": {
+    "$or": [
+      {
         "status": "DISABLED",
       },
-      Object {
+      {
         "name": "Disabled User",
       },
     ],
   },
-  "pipeline": Array [],
+  "pipeline": [],
 }
 `;
 
 exports[`should return correct conditions for mapped key 1`] = `
-Object {
-  "conditions": Object {
-    "my.nested.tags": Object {
-      "$all": Array [
+{
+  "conditions": {
+    "my.nested.tags": {
+      "$all": [
         "a",
         "b",
       ],
     },
   },
-  "pipeline": Array [],
+  "pipeline": [],
 }
 `;
 
 exports[`should return correct conditions for nested comparison 1`] = `
-Object {
-  "conditions": Object {
-    "$and": Array [
-      Object {
-        "$or": Array [
-          Object {
+{
+  "conditions": {
+    "$and": [
+      {
+        "$or": [
+          {
             "status": "DISABLED",
           },
-          Object {
+          {
             "name": "Disabled User",
           },
         ],
       },
-      Object {
-        "$or": Array [
-          Object {
+      {
+        "$or": [
+          {
             "role": "ADMIN",
           },
-          Object {
+          {
             "name": "Admin",
           },
         ],
       },
     ],
   },
-  "pipeline": Array [],
+  "pipeline": [],
 }
 `;
 
 exports[`should return correct conditions when blacklisting some filters on mapping 1`] = `
-Object {
-  "conditions": Object {
+{
+  "conditions": {
     "a": "b",
   },
-  "pipeline": Array [],
+  "pipeline": [],
 }
 `;
 
 exports[`should return correct conditions when using format function 1`] = `
-Object {
-  "conditions": Object {
+{
+  "conditions": {
     "a": "something-else",
   },
-  "pipeline": Array [],
+  "pipeline": [],
 }
 `;
