@@ -12,3 +12,4 @@ package-lock.json
 lib
 yarn.lock
 tsconfig.tsbuildinfo
+node-compile-cache

@@ -1,5 +1,0 @@
-dist
-build
-.lintstagedrc.json
-*.spec.ts.snap
-lib

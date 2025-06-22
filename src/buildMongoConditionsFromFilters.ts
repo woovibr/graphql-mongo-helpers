@@ -155,6 +155,7 @@ export default function buildMongoConditionsFromFilters<TContext = any, TValue =
       return {
         ...prev,
         [type]: {
+          // @ts-ignore
           ...prev[type],
           [key]: filters[key],
         },

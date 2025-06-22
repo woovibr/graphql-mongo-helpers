@@ -1,4 +1,4 @@
-import { connectionFromMongoCursor } from '@entria/graphql-mongoose-loader';
+import { connectionFromMongoCursor } from '@woovi/graphql-mongoose-loader';
 import { Model } from 'mongoose';
 
 import { LoaderFn } from './types';
@@ -12,6 +12,7 @@ export const withConnectionCursor = <Context extends object>(
 
   const [context, args] = params;
 
+  // @ts-ignore
   const cursor = model.find(conditions).sort(sort);
 
   return connectionFromMongoCursor({

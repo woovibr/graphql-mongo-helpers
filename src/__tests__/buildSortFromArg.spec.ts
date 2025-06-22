@@ -1,4 +1,5 @@
 import buildSortFromArg from '../buildSortFromArg';
+import { it, expect } from 'vitest';
 
 it('should return correct sort', async () => {
   const sortArg = [

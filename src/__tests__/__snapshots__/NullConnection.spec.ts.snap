@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`NullConnection NullConnection 1`] = `
+exports[`NullConnection > NullConnection 1`] = `
 {
   "count": 0,
   "edges": [],
