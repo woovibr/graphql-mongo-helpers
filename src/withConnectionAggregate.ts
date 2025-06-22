@@ -1,4 +1,4 @@
-import { connectionFromMongoAggregate } from '@entria/graphql-mongoose-loader';
+import { connectionFromMongoAggregate } from '@woovi/graphql-mongoose-loader';
 import { Model } from 'mongoose';
 
 import { LoaderFn, BuiltConditionSet } from './types';

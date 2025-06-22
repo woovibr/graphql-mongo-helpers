@@ -1,4 +1,5 @@
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
+import { it, expect, describe } from 'vitest';
 
 import { objectIdResolver, timestampResolver } from '../documentResolvers';
 

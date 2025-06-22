@@ -1,5 +1,6 @@
 import { toGlobalId } from 'graphql-relay';
 import { Types, model, Schema } from 'mongoose';
+import { it, expect, describe } from 'vitest';
 
 import { getObjectId } from '../getObjectId';
 
@@ -33,7 +34,7 @@ describe('getObjectId', () => {
 
   it('should return a valid ObjectId when target is a GlobalId', async () => {
     const post = new PostModel({ content: 'test content' });
-    const globalId = toGlobalId('Post', post._id);
+    const globalId = toGlobalId('Post', post._id.toString());
 
     const result = getObjectId(globalId);
 
@@ -50,6 +51,7 @@ describe('getObjectId', () => {
   it('should return null when target is a invalid Object', () => {
     const invalidDoc = { name: 'invalid' };
 
+    // @ts-ignore
     const result = getObjectId(invalidDoc);
 
     expect(result).toBeNull();

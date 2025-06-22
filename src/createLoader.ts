@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { mongooseLoader } from '@entria/graphql-mongoose-loader';
+import { mongooseLoader } from '@woovi/graphql-mongoose-loader';
 import DataLoader from 'dataloader';
 import { ConnectionArguments } from 'graphql-relay';
 import { Model, Document } from 'mongoose';

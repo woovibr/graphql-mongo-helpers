@@ -1,4 +1,5 @@
 import { NullConnection } from '../NullConnection';
+import { it, expect, describe } from 'vitest';
 
 describe('NullConnection', () => {
   it('NullConnection', () => {

@@ -1,5 +1,6 @@
 import buildMongoConditionsFromFilters from '../buildMongoConditionsFromFilters';
 import { FILTER_CONDITION_TYPE } from '../constants';
+import { it, expect } from 'vitest';
 
 it('should return correct conditions for AND comparison', async () => {
   const context = {};
@@ -160,11 +161,13 @@ it('should throw error if using invalid value for filters', async () => {
   const filtersA = {
     AND: 'a',
   };
+  // @ts-ignore
   expect(() => buildMongoConditionsFromFilters(context, filtersA)).toThrow('Invalid filter supplied to $and.');
 
   const filtersB = {
     OR: 'a',
   };
+  // @ts-ignore
   expect(() => buildMongoConditionsFromFilters(context, filtersB)).toThrow('Invalid filter supplied to $or.');
 
   const filtersC = {

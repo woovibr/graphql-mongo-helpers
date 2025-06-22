@@ -1,5 +1,6 @@
 import { GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
 import { globalIdField } from 'graphql-relay';
+import { it, expect, describe } from 'vitest';
 
 import { connectionDefinitions, PageInfoType, ConnectionInterface } from '../connectionDefinitions';
 

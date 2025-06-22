@@ -1,4 +1,5 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
+import { it, expect, describe } from 'vitest';
 
 import { errorField, successField } from '../statusFields';
 

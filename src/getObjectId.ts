@@ -8,6 +8,7 @@ export const getObjectId = (target: string | Document | Types.ObjectId): Types.O
   }
 
   if (typeof target === 'object' && target instanceof Document) {
+    // @ts-ignore
     return target && target._id ? new Types.ObjectId(target._id) : null;
   }
 

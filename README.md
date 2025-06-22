@@ -1,7 +1,6 @@
 ## GraphQL Mongo Helpers
 
-[![npm](https://img.shields.io/npm/v/@entria/graphql-mongo-helpers.svg)](https://www.npmjs.com/package/@entria/graphql-mongo-helpers)
-[![CircleCI (all branches)](https://img.shields.io/circleci/project/github/entria/graphql-mongo-helpers.svg)](https://circleci.com/gh/entria/graphql-mongo-helpers)
+[![npm](https://img.shields.io/npm/v/@entria/graphql-mongo-helpers.svg)](https://www.npmjs.com/package/@woovi/graphql-mongo-helpers)
 
 1. [What is this?](#what-is-this)
 1. [Install](#install)
@@ -14,7 +13,7 @@ It's a package with some (currently two to be exact) tools to use when building 
 ### Install
 
 ```
-yarn add @entria/graphql-mongo-helpers
+yarn add @woovi/graphql-mongo-helpers
 ```
 
 ### Usage
