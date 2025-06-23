@@ -22,3 +22,4 @@ export { objectIdResolver, timestampResolver } from './documentResolvers';
 export { errorField, successField } from './statusFields';
 export { withFilter, type ArgsWithFilter } from './withFilter';
 export { NullConnection, type NullConnectionType } from './NullConnection';
+export { mongooseIDResolver } from './mongooseIDResolver.ts'
