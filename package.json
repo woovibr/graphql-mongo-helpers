@@ -1,7 +1,7 @@
 {
   "name": "@woovi/graphql-mongo-helpers",
   "description": "Mongo helpers to be used when building a GraphQL API",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "author": {
     "name": "Entria",
     "email": "dev@woovi.com",
