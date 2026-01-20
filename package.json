@@ -1,7 +1,7 @@
 {
   "name": "@woovi/graphql-mongo-helpers",
   "description": "Mongo helpers to be used when building a GraphQL API",
-  "version": "2.0.4",
+  "version": "3.0.4",
   "author": {
     "name": "Entria",
     "email": "dev@woovi.com",
@@ -18,36 +18,32 @@
     }
   ],
   "dependencies": {
-    "@microsoft/api-extractor": "^7.52.8",
-    "@rslib/core": "^0.10.2",
+    "@microsoft/api-extractor": "^7.55.2",
+    "@rslib/core": "^0.19.2",
     "@woovi/graphql-mongoose-loader": "5.1.3",
-    "vitest": "^3.2.4"
+    "graphql-relay": "^0.10.2",
+    "mongoose": "^9.1.5",
+    "vitest": "^4.0.17"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
-    "@typescript-eslint/eslint-plugin": "^8.34.1",
-    "@typescript-eslint/parser": "^8.34.1",
-    "dataloader": "*",
-    "graphql": ">=16.0.0",
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
+    "dataloader": "^2.2.3",
+    "graphql": "^16.12.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.2",
-    "prettier": "3.6.0",
-    "rimraf": "^6.0.1",
-    "sort-package-json": "^3.2.2",
-    "typescript": "^5.8.3"
+    "lint-staged": "^16.2.7",
+    "prettier": "3.8.0",
+    "rimraf": "^6.1.2",
+    "sort-package-json": "^3.6.0",
+    "typescript": "^5.9.3"
   },
   "keywords": [
     "graphql",
     "mongo"
   ],
   "license": "MIT",
-  "peerDependencies": {
-    "dataloader": "*",
-    "graphql": ">=16.0.0",
-    "graphql-relay": "*",
-    "mongoose": "*"
-  },
   "publishConfig": {
     "access": "public"
   },
