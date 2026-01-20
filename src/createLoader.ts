@@ -38,10 +38,14 @@ export interface FilteredConnectionArguments extends ConnectionArguments {
   filters: GraphQLFilter | null;
 }
 
+type RelayDocument = {
+  id?: string
+} & Document
+
 export const createLoader = <
   Context extends BaseContext<LoaderName, Value>,
   LoaderName extends string,
-  Value extends Document
+  Value extends RelayDocument
 >({
   model,
   viewerCanSee = defaultViewerCanSee,
@@ -65,7 +69,7 @@ export const createLoader = <
     }
   }
 
-  const nameIt = (name: string, cls: typeof Loader): typeof Loader => ({ [name]: class extends cls {} }[name]);
+  const nameIt = (name: string, cls: typeof Loader): typeof Loader => ({ [name]: class extends cls { } }[name]);
 
   const Wrapper = nameIt(model.collection.collectionName, Loader);
 
@@ -132,25 +136,25 @@ export const createLoader = <
 
   const loadAll = isAggregate
     ? withConnectionAggregate(model, load, (context: Context, args: FilteredConnectionArguments) => {
-        const { mongoDefaultConditions, builtMongoConditions } = buildFiltersConditionsAndSort(context, args);
+      const { mongoDefaultConditions, builtMongoConditions } = buildFiltersConditionsAndSort(context, args);
 
-        return {
-          defaultConditions: mongoDefaultConditions,
-          builtMongoConditions,
-        };
-      })
+      return {
+        defaultConditions: mongoDefaultConditions,
+        builtMongoConditions,
+      };
+    })
     : withConnectionCursor(model, load, (context: Context, args: FilteredConnectionArguments) => {
-        const { conditions, mongoDefaultSort } = buildFiltersConditionsAndSort(context, args);
+      const { conditions, mongoDefaultSort } = buildFiltersConditionsAndSort(context, args);
 
-        return {
-          conditions,
-          sort: mongoDefaultSort,
-        };
-      });
+      return {
+        conditions,
+        sort: mongoDefaultSort,
+      };
+    });
 
   return {
     Wrapper: Wrapper as {
-      new (value: Value): Value;
+      new(value: Value): Value;
     },
     getLoader,
     clearCache,
