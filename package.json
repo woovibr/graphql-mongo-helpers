@@ -66,6 +66,7 @@
     "release:patch": "npm version patch && git push --follow-tags",
     "test": "vitest"
   },
+  "packageManager": "pnpm@10.29.3",
   "type": "module",
   "exports": {
     ".": {
