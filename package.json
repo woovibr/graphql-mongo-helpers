@@ -25,6 +25,9 @@
     "mongoose": "^9.2.1",
     "vitest": "^4.0.18"
   },
+  "peerDependencies": {
+    "graphql": "^16.0.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",
     "@commitlint/config-conventional": "^20.4.1",
