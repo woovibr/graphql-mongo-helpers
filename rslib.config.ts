@@ -17,4 +17,10 @@ export default defineConfig({
       syntax: ['node 18'],
     },
   ],
+  output: {
+    externals: [
+      'graphql',
+      /^graphql\/.*/,
+    ],
+  },
 });
