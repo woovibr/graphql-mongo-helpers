@@ -12,6 +12,7 @@ export const withConnectionAggregate =
     model: Model<any>,
     loader: LoaderFn<Context>,
     condFn: (...p: any[]) => WithConnectionAggregateConditions,
+    { shouldCount = false }: { shouldCount?: boolean } = {},
   ) =>
   (...params: any[]) => {
     const { defaultConditions = {}, builtMongoConditions } = condFn(...params);
@@ -27,5 +28,6 @@ export const withConnectionAggregate =
       context,
       args,
       loader: loader as any,
+      shouldCount,
     });
   };

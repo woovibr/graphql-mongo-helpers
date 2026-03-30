@@ -7,6 +7,7 @@ export const withConnectionCursor = <Context extends object>(
   model: Model<any>,
   loader: LoaderFn<Context>,
   condFn: (...p: any[]) => { conditions?: object; sort?: object },
+  { shouldCount = false }: { shouldCount?: boolean } = {},
 ) => (...params: any[]) => {
   const { conditions = {}, sort = {} } = condFn(...params);
 
@@ -20,5 +21,6 @@ export const withConnectionCursor = <Context extends object>(
     context,
     args,
     loader: loader as any,
+    shouldCount,
   });
 };

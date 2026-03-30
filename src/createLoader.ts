@@ -28,6 +28,7 @@ export type CreateLoaderArgs<
   loaderName: LoaderName;
   filterMapping?: object;
   isAggregate?: boolean;
+  shouldCount?: boolean;
   shouldValidateContextUser?: boolean;
   defaultFilters?: object | filtersConditionsOrSortFn<Context>;
   defaultConditions?: object | filtersConditionsOrSortFn<Context>;
@@ -52,6 +53,7 @@ export const createLoader = <
   loaderName,
   filterMapping = {},
   isAggregate = false,
+  shouldCount = false,
   shouldValidateContextUser = false,
   defaultFilters = {},
   defaultConditions = {},
@@ -142,7 +144,7 @@ export const createLoader = <
         defaultConditions: mongoDefaultConditions,
         builtMongoConditions,
       };
-    })
+    }, { shouldCount })
     : withConnectionCursor(model, load, (context: Context, args: FilteredConnectionArguments) => {
       const { conditions, mongoDefaultSort } = buildFiltersConditionsAndSort(context, args);
 
@@ -150,7 +152,7 @@ export const createLoader = <
         conditions,
         sort: mongoDefaultSort,
       };
-    });
+    }, { shouldCount });
 
   return {
     Wrapper: Wrapper as {
