@@ -43,6 +43,41 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
+describe('createLoader typename', () => {
+  it('should not access model.collection.collectionName when typename is provided', () => {
+    const collectionSpy = vi.fn(() => 'fromCollection');
+    const lazyModel = {
+      find: vi.fn().mockReturnValue({ sort: vi.fn().mockReturnThis() }),
+      aggregate: vi.fn().mockReturnValue({ pipeline: vi.fn().mockReturnValue([]) }),
+      get collection() {
+        return { get collectionName() { return collectionSpy(); } };
+      },
+    } as any;
+
+    const { Wrapper } = createLoader({
+      model: lazyModel,
+      loaderName,
+      typename: 'Explicit',
+    });
+
+    expect(collectionSpy).not.toHaveBeenCalled();
+    expect(Wrapper.name).toBe('Explicit');
+
+    const instance = new Wrapper({ _id: '1', id: '1' } as any);
+    expect(instance.id).toBe('1');
+    expect(collectionSpy).not.toHaveBeenCalled();
+  });
+
+  it('should fall back to model.collection.collectionName when typename is absent', () => {
+    const { Wrapper } = createLoader({
+      model: mockModel,
+      loaderName,
+    });
+
+    expect(Wrapper.name).toBe('test');
+  });
+});
+
 describe('createLoader shouldCount', () => {
   it('should default shouldCount to false for cursor-based loader', async () => {
     const { loadAll } = createLoader({
