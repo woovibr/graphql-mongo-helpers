@@ -8,24 +8,12 @@ importers:
 
   .:
     dependencies:
-      '@microsoft/api-extractor':
-        specifier: ^7.56.3
-        version: 7.56.3(@types/node@25.0.9)
-      '@rslib/core':
-        specifier: ^0.19.6
-        version: 0.19.6(@microsoft/api-extractor@7.56.3(@types/node@25.0.9))(typescript@5.9.3)
       '@woovi/graphql-mongoose-loader':
         specifier: 6.0.0
         version: 6.0.0(graphql-relay@0.10.2(graphql@16.12.0))(graphql@16.12.0)(mongoose@9.2.1)
       graphql-relay:
         specifier: ^0.10.2
         version: 0.10.2(graphql@16.12.0)
-      mongoose:
-        specifier: ^9.2.1
-        version: 9.2.1
-      vitest:
-        specifier: ^4.0.18
-        version: 4.0.18(@types/node@25.0.9)(jiti@2.6.1)(yaml@2.8.2)
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.4.1
@@ -33,6 +21,12 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^20.4.1
         version: 20.4.1
+      '@microsoft/api-extractor':
+        specifier: ^7.56.3
+        version: 7.56.3(@types/node@25.0.9)
+      '@rslib/core':
+        specifier: ^0.19.6
+        version: 0.19.6(@microsoft/api-extractor@7.56.3(@types/node@25.0.9))(typescript@5.9.3)
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.56.0
         version: 8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.29.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.29.0(jiti@2.6.1))(typescript@5.9.3)
@@ -51,6 +45,9 @@ importers:
       lint-staged:
         specifier: ^16.2.7
         version: 16.2.7
+      mongoose:
+        specifier: ^9.2.1
+        version: 9.2.1
       prettier:
         specifier: 3.8.1
         version: 3.8.1
@@ -63,6 +60,9 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.0.18(@types/node@25.0.9)(jiti@2.6.1)(yaml@2.8.2)
 
 packages:
 
