@@ -33,6 +33,12 @@ export type CreateLoaderArgs<
   defaultFilters?: object | filtersConditionsOrSortFn<Context>;
   defaultConditions?: object | filtersConditionsOrSortFn<Context>;
   defaultSort?: object | filtersConditionsOrSortFn<Context>;
+  // Optional explicit name for the returned Wrapper class. Pass this to avoid
+  // touching `model.collection.collectionName` at createLoader setup time —
+  // required when `model` is a Proxy that lazily resolves against a secondary
+  // mongoose connection (e.g. SPI), because an eager access would pin the
+  // proxy to whichever connection exists at import time.
+  typename?: string;
 };
 
 export interface FilteredConnectionArguments extends ConnectionArguments {
@@ -58,6 +64,7 @@ export const createLoader = <
   defaultFilters = {},
   defaultConditions = {},
   defaultSort = { createdAt: -1 },
+  typename,
 }: CreateLoaderArgs<Context, LoaderName, Value>) => {
   class Loader {
     [key: string]: any;
@@ -73,7 +80,13 @@ export const createLoader = <
 
   const nameIt = (name: string, cls: typeof Loader): typeof Loader => ({ [name]: class extends cls { } }[name]);
 
-  const Wrapper = nameIt(model.collection.collectionName, Loader);
+  // When `typename` is provided, skip the eager `model.collection.collectionName`
+  // lookup. This is the opt-in for callers whose `model` is a Proxy lazily
+  // resolving against a secondary mongoose connection (e.g. SPI) — an eager
+  // lookup there would pin the proxy to whichever connection exists at import
+  // time, permanently caching the wrong connection.
+  const wrapperName = typename ?? model.collection.collectionName;
+  const Wrapper = nameIt(wrapperName, Loader);
 
   const getLoader = () => new DataLoader<string, Value>((ids) => mongooseLoader(model, ids));
 
