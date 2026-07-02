@@ -44,3 +44,11 @@ export {
   registerTypeLoader,
   typeResolver,
 } from './typeRegistry.ts';
+export {
+  DateFilterInput,
+  getNormalizedDate,
+  type DateFilterInputType,
+  type NormalizedDateFilterInputType,
+} from './DateFilterInputType';
+export { dateFilterCondition } from './dateFilterCondition';
+export { getDateFilter } from './getDateFilter';
