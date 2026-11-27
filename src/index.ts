@@ -17,6 +17,7 @@ export {
 export { FILTER_CONDITION_TYPE } from './constants';
 export { getObjectId } from './getObjectId';
 export { createLoader } from './createLoader';
+export { FORBIDDEN_ERROR_CODE, isForbiddenError } from './isForbiddenError';
 export { connectionDefinitions, connectionArgs } from './connectionDefinitions';
 export { objectIdResolver, timestampResolver } from './documentResolvers';
 export { errorField, successField } from './statusFields';

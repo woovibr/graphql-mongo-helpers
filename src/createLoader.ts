@@ -5,6 +5,7 @@ import { ConnectionArguments } from 'graphql-relay';
 import { Model, Document } from 'mongoose';
 
 import buildMongoConditionsFromFilters from './buildMongoConditionsFromFilters';
+import { isForbiddenError } from './isForbiddenError';
 import { DataLoaderKey, GraphQLFilter } from './types';
 import { validateContextUser } from './validateContextUser';
 import { withConnectionAggregate } from './withConnectionAggregate';
@@ -110,6 +111,9 @@ export const createLoader = <
 
       return filteredData ? (new Wrapper(filteredData) as Value) : null;
     } catch (err) {
+      if (isForbiddenError(err)) {
+        throw err;
+      }
       return null;
     }
   };
